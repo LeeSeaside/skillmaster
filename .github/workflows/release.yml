@@ -2,7 +2,7 @@ name: Release Multi-Platform
 
 on:
   release:
-    types: [created, published]
+    types: [created]
 
 jobs:
   build-and-upload:
