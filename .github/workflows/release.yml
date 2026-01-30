@@ -1,30 +1,11 @@
 name: Release Multi-Platform
 
 on:
-  push:
-    tags:
-      - 'v*'
+  release:
+    types: [published]
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
-    outputs:
-      release_id: ${{ steps.create-release.outputs.id }}
-      upload_url: ${{ steps.create-release.outputs.upload_url }}
-    steps:
-      - name: Create Release
-        id: create-release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-
   build-and-upload:
-    needs: create-release
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +75,7 @@ jobs:
 
       - name: Generate latest.json
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          VERSION=${GITHUB_REF#refs/tags/}
           cat > latest.json << EOF
           {
             "version": "$VERSION",
@@ -102,16 +83,16 @@ jobs:
             "pub_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             "platforms": {
               "windows-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/v$VERSION/SkillMaster_${VERSION}_x64_en-US.msi"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64_en-US.msi"
               },
               "darwin-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/v$VERSION/SkillMaster_${VERSION}_x64.dmg"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64.dmg"
               },
               "darwin-aarch64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/v$VERSION/SkillMaster_${VERSION}_aarch64.dmg"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_aarch64.dmg"
               },
               "linux-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/v$VERSION/skillmaster_${VERSION}_amd64.AppImage"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/skillmaster_${VERSION#v}_amd64.AppImage"
               }
             }
           }
