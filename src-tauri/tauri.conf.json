@@ -45,9 +45,9 @@
     "updater": {
       "active": true,
       "endpoints": [
-        "https://github.com/LeeSeaside/skillmaster/releases/latest/download/latest.json"
+        "https://raw.githubusercontent.com/LeeSeaside/skillmaster/main/latest.json"
       ],
-      "dialog": true,
+      "dialog": false,
       "pubkey": ""
     }
   }

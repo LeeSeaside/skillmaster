@@ -1,0 +1,23 @@
+{
+  "version": "v0.1.0",
+  "notes": "Initial release",
+  "pub_date": "2024-01-30T00:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "url": "https://github.com/LeeSeaside/skillmaster/releases/download/v0.1.0/SkillMaster_0.1.0_x64_en-US.msi",
+      "signature": ""
+    },
+    "darwin-x86_64": {
+      "url": "https://github.com/LeeSeaside/skillmaster/releases/download/v0.1.0/SkillMaster_0.1.0_x64.dmg",
+      "signature": ""
+    },
+    "darwin-aarch64": {
+      "url": "https://github.com/LeeSeaside/skillmaster/releases/download/v0.1.0/SkillMaster_0.1.0_aarch64.dmg",
+      "signature": ""
+    },
+    "linux-x86_64": {
+      "url": "https://github.com/LeeSeaside/skillmaster/releases/download/v0.1.0/skillmaster_0.1.0_amd64.AppImage",
+      "signature": ""
+    }
+  }
+}

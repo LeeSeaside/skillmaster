@@ -72,6 +72,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Generate latest.json
         run: |
@@ -83,24 +85,29 @@ jobs:
             "pub_date": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
             "platforms": {
               "windows-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64_en-US.msi"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64_en-US.msi",
+                "signature": ""
               },
               "darwin-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64.dmg"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_x64.dmg",
+                "signature": ""
               },
               "darwin-aarch64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_aarch64.dmg"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/SkillMaster_${VERSION#v}_aarch64.dmg",
+                "signature": ""
               },
               "linux-x86_64": {
-                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/skillmaster_${VERSION#v}_amd64.AppImage"
+                "url": "https://github.com/${{ github.repository }}/releases/download/$VERSION/skillmaster_${VERSION#v}_amd64.AppImage",
+                "signature": ""
               }
             }
           }
           EOF
 
-      - name: Upload latest.json
-        uses: softprops/action-gh-release@v1
-        with:
-          files: latest.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit and push latest.json
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add latest.json
+          git commit -m "chore: update latest.json for ${{ github.ref_name }}"
+          git push
